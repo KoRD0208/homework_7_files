@@ -59,9 +59,7 @@ function UserList({users, inputValue}) {
       <div className="users">
          {
             users.map(user => {
-               if(user.name.toLowerCase().search(inputValue.toLowerCase()) == -1) {
-                  return null
-               } else {
+               if(user.name.toLowerCase().search(inputValue.toLowerCase()) !== -1) {
                   return <User userProps={user} key={user.id}/>
                }
          })}
