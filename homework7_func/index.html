@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+   <title>Homework 7 functional</title>
+</head>
+<body>
+   <div id="root"></div>
+   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+   <script type="text/babel">
+   
+function App() {
+   let [isLoaded, setLoad] = React.useState(false)
+   let [items, setItems] = React.useState([])
+   let [inputValue, setValue] = React.useState('')
+   let [error, setError] = React.useState(null);
+
+   React.useEffect(async () => {
+      try {
+         let response = await fetch("https://jsonplaceholder.typicode.com/users");
+         const users = await response.json();
+         setLoad(true);
+         setItems(users);
+      } catch(err) {
+         setLoad(true);
+         setError(err);
+      }
+   }, [])
+
+   function updateInput(value) {
+      setValue(value);
+   }
+
+   if(error) {
+      return (
+         <div className="error-message">
+            Something went wrong.{error.message}
+         </div>
+      )
+   } else if(!isLoaded) {
+      return <div>Loading...</div>
+   } else {
+      return <div className="App">
+         <Search value={inputValue} checkChange={updateInput.bind(this)}/>
+         <UserList users={items} inputValue={inputValue}/>            
+      </div>
+   }
+}
+
+function UserList({users, inputValue}) {
+   let [userList, setUser] = React.useState(users);
+   let [inputVal, setInput] = React.useState(inputValue);
+
+   return (
+      <div className="users">
+         {
+            users.map(user => {
+               if(user.name.search(inputVal) == -1) {
+                  return null
+               } else {
+                  return <User userProps={user} key={user.id}/>
+               }
+         })}
+      </div>
+   )
+}
+
+UserList.propTypes = {
+      users: PropTypes.arrayOf(PropTypes.object),
+}
+
+function User({userProps}) {
+   let [name] = React.useState(userProps.name)
+   let [userName] = React.useState(userProps.username)
+   let [email] = React.useState(userProps.email)
+
+   return (
+         <div className="user">
+            <div className="user__name">
+               {name}
+            </div>
+            <div className="user__username">
+               <p>
+                  Username:
+               </p>
+               {userName}
+            </div>
+            <div className="user__email">
+               <p>
+                  E-mail:
+               </p>
+               {email}
+            </div>
+         </div>
+      )
+}
+
+User.propTypes = {
+      userProps: PropTypes.shape({
+         name: PropTypes.string,
+         username: PropTypes.string,
+         email: PropTypes.string
+})}
+
+function Search({value, checkChange}) {
+   let [val, setVal] = React.useState(value);
+
+   function handleChange(e) {
+      setVal(e.target.value)
+      // checkChange(e.target.value)
+      console.log(val);
+   }
+   
+   return (
+         <div className="search-by-name">
+            <label htmlFor="search">
+               Enter a name:
+            </label>
+               <input type="text" value={val} name="search"
+               onInput={e => handleChange(e)} className="search" placeholder="Name"/>
+         </div>
+      )
+}
+
+ReactDOM.render(
+   <App/>,
+   document.getElementById("root")
+)
+   </script>
+</body>
+</html>

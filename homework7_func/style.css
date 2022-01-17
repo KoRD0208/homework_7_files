@@ -1,0 +1,64 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   background: rgba(0, 0, 0, 0.04);
+}
+
+
+.users {
+   display: flex;
+   flex-wrap: wrap;
+   width: 100%;
+   margin: 15px;
+}
+
+.user {
+   width: 300px;
+   height: 300px;
+   margin: 10px 30px;
+   border-radius: 12px;
+   background: #fff;
+   box-shadow: 4px 22px 18px rgba(0, 0, 0, 0.05);
+}
+
+.user__name {
+   font-weight: 900;
+   font-size: 32px;
+   margin: 10px;
+   text-align: center;
+}
+
+.user__username, .user__email {
+   margin: 20px 10px;
+   font-size: 24px;
+   color: rgb(101, 213, 133);
+}
+.user__username p, .user__email p {
+   color: #000;
+}
+
+.search-by-name {
+   margin: 30px;
+   font-size: 28px;
+}
+
+.search-by-name label {
+   margin-right: 10px;
+}
+
+.search {
+   width: 200px;
+   height: 40px;
+   font-size: 28px;
+   border-radius: 6px;
+}
+
+.error-message {
+   text-align: center;
+   font-size: 42px;
+   color: #f00;
+}

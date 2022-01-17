@@ -1,0 +1,24 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+.container {
+   display: flex;
+   justify-content: center;
+}
+
+.row {
+   display: flex;
+}
+
+.form-group {
+   margin: 30px;
+}
+
+.error-message {
+   text-align: center;
+   font-size: 42px;
+   color: #f00;
+}

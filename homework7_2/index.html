@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+   <title>Homework 7</title>
+</head>
+<body>
+   <div id="root"></div>
+   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+   <script type="text/babel">
+   
+   const rootElement = document.getElementById("root");
+
+class Form extends React.Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         commaValue: "",
+         linesValue: "",
+         selectValue: ""
+      }
+   }
+   static availableOptions = [
+      "apple",
+      "orange",
+      "grape",
+      "cherry",
+      "peach",
+      "pear"
+   ];
+
+   inputChange(startVal, newVal) {
+      this.setState({
+         [startVal]: newVal
+      })
+   }
+
+   handleSubmit(e) {
+      e.preventDefault();
+      for(let [key,value] of Object.entries(this.state)) {
+         console.log(`${key} - ${value}`);
+      }
+   }
+
+   render() {
+      return (
+      <div className="container">
+         <form onSubmit={(e) => this.handleSubmit(e)}>
+            <div className="row">
+               <CommaSeparated checkChangeComma={this.inputChange.bind(this)}/>
+               <MultiLines checkChangeComma={this.inputChange.bind(this)}/>
+            <MultiSelect checkChangeComma={this.inputChange.bind(this)}/>
+            </div>
+            <div className="button">
+               <input type="submit" value="Get Data"/>
+            </div>
+         </form>
+      </div>
+      );
+   }
+}
+
+
+class CommaSeparated extends React.Component {
+   constructor(props) {
+      super(props);
+   }
+
+
+   handleCommaSeperatedChange(e) {
+      this.props.checkChangeComma("commaValue", e.target.value);
+      console.log("Handle comma separated");
+   }
+
+   render() {
+      return (
+         <div className="form-group col-md-4">
+               <label>Comma separated values</label>
+               <input
+                  type="text"
+                  className="form-control"
+                  onChange={(e) => this.handleCommaSeperatedChange(e)}
+               />
+            </div>
+      )
+   }
+} 
+
+class MultiLines extends React.Component {
+   constructor(props) {
+      super(props);
+   }
+   
+   handleMultipleChange(e) {
+      this.props.checkChangeComma("linesValue", e.target.value);
+      console.log("Handle multiline");
+   }
+   
+   render() {
+      return (
+         <div className="form-group  col-md-4">
+               <label className="label-control">Multi lines values</label>
+               <textarea
+                  rows={Form.availableOptions.length}
+                  onChange={e => this.handleMultipleChange(e)}
+                  className="form-control"
+               />
+            </div>
+      )
+   }
+} 
+
+class MultiSelect extends React.Component {
+   constructor(props) {
+      super(props);
+   }
+   
+   handleMultiSelectChange(e) {
+      this.props.checkChangeComma("selectValue", e.target.value);
+      console.log("Handle multiselect");
+   }
+   
+   render() {
+      return (
+         <div className="form-group  col-md-4">
+               <label className="label-control">Multi select change</label>
+               <select
+                  className="custom-select"
+                  multiple
+                  size={Form.availableOptions.length}
+                  onChange={e => this.handleMultiSelectChange(e)}
+               >
+                  {Form.availableOptions.map(item => (
+                  <option key={item} value={item}>
+                     {item}
+                  </option>
+                  ))}
+               </select>
+            </div>
+      )
+   }
+} 
+
+ReactDOM.render(<Form />, rootElement);
+   </script>
+</body>
+</html>
