@@ -55,13 +55,12 @@ function App() {
 
 function UserList({users, inputValue}) {
    let [userList, setUser] = React.useState(users);
-   let [inputVal, setInput] = React.useState(inputValue);
-
+   
    return (
       <div className="users">
          {
             users.map(user => {
-               if(user.name.search(inputVal) == -1) {
+               if(user.name.search(inputValue) == -1) {
                   return null
                } else {
                   return <User userProps={user} key={user.id}/>
@@ -109,12 +108,11 @@ User.propTypes = {
 })}
 
 function Search({value, checkChange}) {
-   let [val, setVal] = React.useState(value);
 
    function handleChange(e) {
-      setVal(e.target.value)
-      // checkChange(e.target.value)
-      console.log(val);
+      checkChange(e.target.value)
+      // setVal(value)
+      console.log(value);
    }
    
    return (
@@ -122,7 +120,7 @@ function Search({value, checkChange}) {
             <label htmlFor="search">
                Enter a name:
             </label>
-               <input type="text" value={val} name="search"
+               <input type="text" value={value} name="search"
                onInput={e => handleChange(e)} className="search" placeholder="Name"/>
          </div>
       )
